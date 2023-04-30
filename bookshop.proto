@@ -1,0 +1,58 @@
+syntax = "proto3";
+
+message CreateChainRequest {
+}
+message CreateChainResponse {
+}
+
+message ListChainRequest {
+}
+message ListChainResponse {
+}
+
+message WriteRequest {
+}
+message WriteResponse {
+}
+
+message ReadRequest {    
+}
+message ReadResponse {
+}
+
+message ListBooksRequest {
+}
+message ListBooksResponse {
+}
+
+message SetTimeoutRequest {
+}
+message SetTimeoutResponse {
+}
+
+message DataStatusRequest {
+}
+message DataStatusResponse {
+}
+
+message RemoveHeadRequest {
+}
+message RemoveHeadResponse {
+}
+
+message RestoreHeadRequest {
+}
+message RestoreHeadResponse {
+}
+
+service Bookshop {
+    rpc create_chain (CreateChainRequest) returns (CreateChainResponse) {};
+    rpc list_chain (ListChainRequest) returns (ListChainResponse) {};
+    rpc write (WriteRequest) returns (WriteResponse) {};
+    rpc read (ReadRequest) returns (ReadResponse) {};
+    rpc list_books (ListBooksRequest) returns (ListBooksResponse) {};
+    rpc set_timeout (SetTimeoutRequest) returns (SetTimeoutResponse) {};
+    rpc data_status (DataStatusRequest) returns (DataStatusResponse) {};
+    rpc remove_head (RemoveHeadRequest) returns (RemoveHeadResponse) {};
+    rpc restore_head (RestoreHeadRequest) returns (RestoreHeadResponse) {};
+}
