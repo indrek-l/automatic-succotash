@@ -34,6 +34,16 @@ class BookshopStub(object):
                 request_serializer=bookshop__pb2.ReadRequest.SerializeToString,
                 response_deserializer=bookshop__pb2.ReadResponse.FromString,
                 )
+        self.create_processes = channel.unary_unary(
+                '/Bookshop/create_processes',
+                request_serializer=bookshop__pb2.CreateProcessesRequest.SerializeToString,
+                response_deserializer=bookshop__pb2.CreateProcessesResponse.FromString,
+                )
+        self.get_processes = channel.unary_unary(
+                '/Bookshop/get_processes',
+                request_serializer=bookshop__pb2.GetProcessesRequest.SerializeToString,
+                response_deserializer=bookshop__pb2.GetProcessesResponse.FromString,
+                )
         self.list_books = channel.unary_unary(
                 '/Bookshop/list_books',
                 request_serializer=bookshop__pb2.ListBooksRequest.SerializeToString,
@@ -83,6 +93,18 @@ class BookshopServicer(object):
         raise NotImplementedError('Method not implemented!')
 
     def read(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def create_processes(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def get_processes(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -140,6 +162,16 @@ def add_BookshopServicer_to_server(servicer, server):
                     servicer.read,
                     request_deserializer=bookshop__pb2.ReadRequest.FromString,
                     response_serializer=bookshop__pb2.ReadResponse.SerializeToString,
+            ),
+            'create_processes': grpc.unary_unary_rpc_method_handler(
+                    servicer.create_processes,
+                    request_deserializer=bookshop__pb2.CreateProcessesRequest.FromString,
+                    response_serializer=bookshop__pb2.CreateProcessesResponse.SerializeToString,
+            ),
+            'get_processes': grpc.unary_unary_rpc_method_handler(
+                    servicer.get_processes,
+                    request_deserializer=bookshop__pb2.GetProcessesRequest.FromString,
+                    response_serializer=bookshop__pb2.GetProcessesResponse.SerializeToString,
             ),
             'list_books': grpc.unary_unary_rpc_method_handler(
                     servicer.list_books,
@@ -241,6 +273,40 @@ class Bookshop(object):
         return grpc.experimental.unary_unary(request, target, '/Bookshop/read',
             bookshop__pb2.ReadRequest.SerializeToString,
             bookshop__pb2.ReadResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def create_processes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Bookshop/create_processes',
+            bookshop__pb2.CreateProcessesRequest.SerializeToString,
+            bookshop__pb2.CreateProcessesResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def get_processes(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Bookshop/get_processes',
+            bookshop__pb2.GetProcessesRequest.SerializeToString,
+            bookshop__pb2.GetProcessesResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

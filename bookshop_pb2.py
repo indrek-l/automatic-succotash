@@ -13,7 +13,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x62ookshop.proto\"\x14\n\x12\x43reateChainRequest\"\x15\n\x13\x43reateChainResponse\"\x12\n\x10ListChainRequest\"\x13\n\x11ListChainResponse\"\x0e\n\x0cWriteRequest\"\x0f\n\rWriteResponse\"\r\n\x0bReadRequest\"\x0e\n\x0cReadResponse\"\x12\n\x10ListBooksRequest\"\x13\n\x11ListBooksResponse\"\x13\n\x11SetTimeoutRequest\"\x14\n\x12SetTimeoutResponse\"\x13\n\x11\x44\x61taStatusRequest\"\x14\n\x12\x44\x61taStatusResponse\"\x13\n\x11RemoveHeadRequest\"\x14\n\x12RemoveHeadResponse\"\x14\n\x12RestoreHeadRequest\"\x15\n\x13RestoreHeadResponse2\xf1\x03\n\x08\x42ookshop\x12;\n\x0c\x63reate_chain\x12\x13.CreateChainRequest\x1a\x14.CreateChainResponse\"\x00\x12\x35\n\nlist_chain\x12\x11.ListChainRequest\x1a\x12.ListChainResponse\"\x00\x12(\n\x05write\x12\r.WriteRequest\x1a\x0e.WriteResponse\"\x00\x12%\n\x04read\x12\x0c.ReadRequest\x1a\r.ReadResponse\"\x00\x12\x35\n\nlist_books\x12\x11.ListBooksRequest\x1a\x12.ListBooksResponse\"\x00\x12\x38\n\x0bset_timeout\x12\x12.SetTimeoutRequest\x1a\x13.SetTimeoutResponse\"\x00\x12\x38\n\x0b\x64\x61ta_status\x12\x12.DataStatusRequest\x1a\x13.DataStatusResponse\"\x00\x12\x38\n\x0bremove_head\x12\x12.RemoveHeadRequest\x1a\x13.RemoveHeadResponse\"\x00\x12;\n\x0crestore_head\x12\x13.RestoreHeadRequest\x1a\x14.RestoreHeadResponse\"\x00\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0e\x62ookshop.proto\"\x14\n\x12\x43reateChainRequest\"\x15\n\x13\x43reateChainResponse\"\x12\n\x10ListChainRequest\"\x13\n\x11ListChainResponse\"=\n\x0cWriteRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\r\n\x05value\x18\x02 \x01(\t\x12\x11\n\ttimestamp\x18\x03 \x01(\x02\"\x0f\n\rWriteResponse\"-\n\x0bReadRequest\x12\x0b\n\x03key\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x02\"0\n\x0cReadResponse\x12\r\n\x05value\x18\x01 \x01(\t\x12\x11\n\ttimestamp\x18\x02 \x01(\x02\"/\n\x16\x43reateProcessesRequest\x12\x15\n\rnum_processes\x18\x01 \x01(\x05\"\x19\n\x17\x43reateProcessesResponse\"\x15\n\x13GetProcessesRequest\",\n\x14GetProcessesResponse\x12\x14\n\x0cprocess_list\x18\x01 \x03(\t\"\x12\n\x10ListBooksRequest\"\x13\n\x11ListBooksResponse\"\x13\n\x11SetTimeoutRequest\"\x14\n\x12SetTimeoutResponse\"\x13\n\x11\x44\x61taStatusRequest\"\x14\n\x12\x44\x61taStatusResponse\"\x13\n\x11RemoveHeadRequest\"\x14\n\x12RemoveHeadResponse\"\x14\n\x12RestoreHeadRequest\"\x15\n\x13RestoreHeadResponse2\xfa\x04\n\x08\x42ookshop\x12;\n\x0c\x63reate_chain\x12\x13.CreateChainRequest\x1a\x14.CreateChainResponse\"\x00\x12\x35\n\nlist_chain\x12\x11.ListChainRequest\x1a\x12.ListChainResponse\"\x00\x12(\n\x05write\x12\r.WriteRequest\x1a\x0e.WriteResponse\"\x00\x12%\n\x04read\x12\x0c.ReadRequest\x1a\r.ReadResponse\"\x00\x12G\n\x10\x63reate_processes\x12\x17.CreateProcessesRequest\x1a\x18.CreateProcessesResponse\"\x00\x12>\n\rget_processes\x12\x14.GetProcessesRequest\x1a\x15.GetProcessesResponse\"\x00\x12\x35\n\nlist_books\x12\x11.ListBooksRequest\x1a\x12.ListBooksResponse\"\x00\x12\x38\n\x0bset_timeout\x12\x12.SetTimeoutRequest\x1a\x13.SetTimeoutResponse\"\x00\x12\x38\n\x0b\x64\x61ta_status\x12\x12.DataStatusRequest\x1a\x13.DataStatusResponse\"\x00\x12\x38\n\x0bremove_head\x12\x12.RemoveHeadRequest\x1a\x13.RemoveHeadResponse\"\x00\x12;\n\x0crestore_head\x12\x13.RestoreHeadRequest\x1a\x14.RestoreHeadResponse\"\x00\x62\x06proto3')
 
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, globals())
 _builder.BuildTopDescriptorsAndMessages(DESCRIPTOR, 'bookshop_pb2', globals())
@@ -29,33 +29,41 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _LISTCHAINRESPONSE._serialized_start=83
   _LISTCHAINRESPONSE._serialized_end=102
   _WRITEREQUEST._serialized_start=104
-  _WRITEREQUEST._serialized_end=118
-  _WRITERESPONSE._serialized_start=120
-  _WRITERESPONSE._serialized_end=135
-  _READREQUEST._serialized_start=137
-  _READREQUEST._serialized_end=150
-  _READRESPONSE._serialized_start=152
-  _READRESPONSE._serialized_end=166
-  _LISTBOOKSREQUEST._serialized_start=168
-  _LISTBOOKSREQUEST._serialized_end=186
-  _LISTBOOKSRESPONSE._serialized_start=188
-  _LISTBOOKSRESPONSE._serialized_end=207
-  _SETTIMEOUTREQUEST._serialized_start=209
-  _SETTIMEOUTREQUEST._serialized_end=228
-  _SETTIMEOUTRESPONSE._serialized_start=230
-  _SETTIMEOUTRESPONSE._serialized_end=250
-  _DATASTATUSREQUEST._serialized_start=252
-  _DATASTATUSREQUEST._serialized_end=271
-  _DATASTATUSRESPONSE._serialized_start=273
-  _DATASTATUSRESPONSE._serialized_end=293
-  _REMOVEHEADREQUEST._serialized_start=295
-  _REMOVEHEADREQUEST._serialized_end=314
-  _REMOVEHEADRESPONSE._serialized_start=316
-  _REMOVEHEADRESPONSE._serialized_end=336
-  _RESTOREHEADREQUEST._serialized_start=338
-  _RESTOREHEADREQUEST._serialized_end=358
-  _RESTOREHEADRESPONSE._serialized_start=360
-  _RESTOREHEADRESPONSE._serialized_end=381
-  _BOOKSHOP._serialized_start=384
-  _BOOKSHOP._serialized_end=881
+  _WRITEREQUEST._serialized_end=165
+  _WRITERESPONSE._serialized_start=167
+  _WRITERESPONSE._serialized_end=182
+  _READREQUEST._serialized_start=184
+  _READREQUEST._serialized_end=229
+  _READRESPONSE._serialized_start=231
+  _READRESPONSE._serialized_end=279
+  _CREATEPROCESSESREQUEST._serialized_start=281
+  _CREATEPROCESSESREQUEST._serialized_end=328
+  _CREATEPROCESSESRESPONSE._serialized_start=330
+  _CREATEPROCESSESRESPONSE._serialized_end=355
+  _GETPROCESSESREQUEST._serialized_start=357
+  _GETPROCESSESREQUEST._serialized_end=378
+  _GETPROCESSESRESPONSE._serialized_start=380
+  _GETPROCESSESRESPONSE._serialized_end=424
+  _LISTBOOKSREQUEST._serialized_start=426
+  _LISTBOOKSREQUEST._serialized_end=444
+  _LISTBOOKSRESPONSE._serialized_start=446
+  _LISTBOOKSRESPONSE._serialized_end=465
+  _SETTIMEOUTREQUEST._serialized_start=467
+  _SETTIMEOUTREQUEST._serialized_end=486
+  _SETTIMEOUTRESPONSE._serialized_start=488
+  _SETTIMEOUTRESPONSE._serialized_end=508
+  _DATASTATUSREQUEST._serialized_start=510
+  _DATASTATUSREQUEST._serialized_end=529
+  _DATASTATUSRESPONSE._serialized_start=531
+  _DATASTATUSRESPONSE._serialized_end=551
+  _REMOVEHEADREQUEST._serialized_start=553
+  _REMOVEHEADREQUEST._serialized_end=572
+  _REMOVEHEADRESPONSE._serialized_start=574
+  _REMOVEHEADRESPONSE._serialized_end=594
+  _RESTOREHEADREQUEST._serialized_start=596
+  _RESTOREHEADREQUEST._serialized_end=616
+  _RESTOREHEADRESPONSE._serialized_start=618
+  _RESTOREHEADRESPONSE._serialized_end=639
+  _BOOKSHOP._serialized_start=642
+  _BOOKSHOP._serialized_end=1276
 # @@protoc_insertion_point(module_scope)

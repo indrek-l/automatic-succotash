@@ -11,13 +11,32 @@ message ListChainResponse {
 }
 
 message WriteRequest {
+    string key = 1;
+    string value = 2;
+    float timestamp = 3;
 }
 message WriteResponse {
 }
 
-message ReadRequest {    
+message ReadRequest {
+    string key = 1;
+    float timestamp = 2;
 }
 message ReadResponse {
+    string value = 1;
+    float timestamp = 2;
+}
+
+message CreateProcessesRequest {
+    int32 num_processes = 1;
+}
+message CreateProcessesResponse {
+}
+
+message GetProcessesRequest {    
+}
+message GetProcessesResponse {
+    repeated string process_list = 1;
 }
 
 message ListBooksRequest {
@@ -50,6 +69,8 @@ service Bookshop {
     rpc list_chain (ListChainRequest) returns (ListChainResponse) {};
     rpc write (WriteRequest) returns (WriteResponse) {};
     rpc read (ReadRequest) returns (ReadResponse) {};
+    rpc create_processes (CreateProcessesRequest) returns (CreateProcessesResponse) {};
+    rpc get_processes (GetProcessesRequest) returns (GetProcessesResponse) {};
     rpc list_books (ListBooksRequest) returns (ListBooksResponse) {};
     rpc set_timeout (SetTimeoutRequest) returns (SetTimeoutResponse) {};
     rpc data_status (DataStatusRequest) returns (DataStatusResponse) {};
