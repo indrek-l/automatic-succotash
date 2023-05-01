@@ -79,14 +79,14 @@ class BookshopServer:
 
 #------------------ client ------------------#
 
-class TicTacToeClient:
+class BookshopClient:
     def __init__(self):
         pass
 
-    def create_processes(self, num_processes:int):
+    def create_processes(self, num_processes:int) -> None:
         with grpc.insecure_channel(f"localhost:{PORTS[PID]}") as channel:
             stub = bookshop_pb2_grpc.TicTacToeStub(channel)
-            response = stub.create_processes(bookshop_pb2.CreateProcessesRequest(num_processes=num_processes))
+            stub.create_processes(bookshop_pb2.CreateProcessesRequest(num_processes=num_processes))
 
 
 #------------------- main -------------------#
@@ -98,6 +98,9 @@ def print_n(string:str) -> None:
 
 
 def main():
+    client = BookshopClient()
+    server = BookshopServer()
+
     chain_exists = False
     
     print_n("Waiting for command")
@@ -106,7 +109,7 @@ def main():
         args = command.split(" ")
 
         if args[0].lower() == "local-store-ps":
-            k = int(args[1])
+            client.create_processes(int(args[1]))
             
         elif args[0].lower() == "create-chain":
             if chain_exists:
