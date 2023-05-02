@@ -19,6 +19,11 @@ class BookshopStub(object):
                 request_serializer=bookshop__pb2.CreateChainRequest.SerializeToString,
                 response_deserializer=bookshop__pb2.CreateChainResponse.FromString,
                 )
+        self.announce_role = channel.unary_unary(
+                '/Bookshop/announce_role',
+                request_serializer=bookshop__pb2.AnnounceRoleRequest.SerializeToString,
+                response_deserializer=bookshop__pb2.AnnounceRoleResponse.FromString,
+                )
         self.add_process_to_chain = channel.unary_unary(
                 '/Bookshop/add_process_to_chain',
                 request_serializer=bookshop__pb2.AddProcessToChainRequest.SerializeToString,
@@ -80,6 +85,12 @@ class BookshopServicer(object):
     """Missing associated documentation comment in .proto file."""
 
     def create_chain(self, request, context):
+        """Missing associated documentation comment in .proto file."""
+        context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+        context.set_details('Method not implemented!')
+        raise NotImplementedError('Method not implemented!')
+
+    def announce_role(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
@@ -158,6 +169,11 @@ def add_BookshopServicer_to_server(servicer, server):
                     servicer.create_chain,
                     request_deserializer=bookshop__pb2.CreateChainRequest.FromString,
                     response_serializer=bookshop__pb2.CreateChainResponse.SerializeToString,
+            ),
+            'announce_role': grpc.unary_unary_rpc_method_handler(
+                    servicer.announce_role,
+                    request_deserializer=bookshop__pb2.AnnounceRoleRequest.FromString,
+                    response_serializer=bookshop__pb2.AnnounceRoleResponse.SerializeToString,
             ),
             'add_process_to_chain': grpc.unary_unary_rpc_method_handler(
                     servicer.add_process_to_chain,
@@ -238,6 +254,23 @@ class Bookshop(object):
         return grpc.experimental.unary_unary(request, target, '/Bookshop/create_chain',
             bookshop__pb2.CreateChainRequest.SerializeToString,
             bookshop__pb2.CreateChainResponse.FromString,
+            options, channel_credentials,
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
+
+    @staticmethod
+    def announce_role(request,
+            target,
+            options=(),
+            channel_credentials=None,
+            call_credentials=None,
+            insecure=False,
+            compression=None,
+            wait_for_ready=None,
+            timeout=None,
+            metadata=None):
+        return grpc.experimental.unary_unary(request, target, '/Bookshop/announce_role',
+            bookshop__pb2.AnnounceRoleRequest.SerializeToString,
+            bookshop__pb2.AnnounceRoleResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 

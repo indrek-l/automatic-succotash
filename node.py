@@ -22,35 +22,70 @@ MIN_PID, MAX_PID = 0, 2
 PID = max(min(int(sys.argv[1]), MAX_PID), MIN_PID)
 PORTS = [20040 + i for i in range(1, MAX_PID + 1)]
 
+# stores the names of the head and the tail of the chain for read and write ops.
+CHAIN = {'head': None, 'tail': None}
 
 #----------------- servicer -----------------#
 
 class BookshopServicer(bookshop_pb2_grpc.BookshopServicer):
     def __init__(self):
-        self.processes = set()
+        self.processes = {}
 
     def write(self, request, context):
-        self.storage[request.key] = (request.value, time())
+        node_pid = int(CHAIN['head'][4])
+        if node_pid == PID:
+            # TODO: Logging
+            self.processes[CHAIN['head']].db[request.key] = request.value
+        else:
+            try:
+                with grpc.insecure_channel(f"localhost:{PORTS[node_pid]}") as channel:
+                    stub = bookshop_pb2_grpc.BookshopStub(channel)
+                    stub.write(request)
+            except grpc.RpcError as ex:
+                print_n(f"Running write(). Node-{node_pid} not responding: {ex.details()}")
         return bookshop_pb2.WriteResponse()
-    
+        
     def read(self, request, context):
         try:
             return bookshop_pb2.ReadResponse(value=self.storage[request.key], timestamp=time())
         except KeyError:
-            # When key is not present, respond without value
+            # When key is not present, respond without value. NOT SURE
             return bookshop_pb2.ReadResponse(timestamp=time())
     
     def create_processes(self, request, context):
-        self.processes.update([BookshopProcess(name=f"Node{PID}-ps{i+1}") for i in range(request.num_processes)])
+        for i in range(request.num_processes):
+            self.processes[f"Node{PID}-ps{i+1}"] = BookshopProcess()
         return bookshop_pb2.CreateProcessesResponse()
 
     def get_processes(self, request, context):
         return bookshop_pb2.GetProcessNamesResponse(process_list=[ps.name for ps in self.processes])
 
+    def add_process_to_chain(self, request, context):
+        self.processes[request.process].predecessor = request.predecessor
+        self.processes[request.process].successor = request.successor
+        # check if head/tail was added to chain
+        if not request.predecessor or not request.successor:
+            role = 'head' if not request.predecessor else 'tail'
+            self.announce_role(bookshop_pb2.AnnounceRoleRequest(process=request.process, role=role))
+        return bookshop_pb2.AddProcessToChainResponse()
+    
+    def announce_role(self, request, context):
+        """Tell all nodes which process is the head/tail of the chain."""
+        for i, port in enumerate(PORTS):
+            if i == PID:
+                CHAIN[request.role] = request.process
+            else:
+                try:
+                    with grpc.insecure_channel(f"localhost:{port}") as channel:
+                        stub = bookshop_pb2_grpc.BookshopStub(channel)
+                        stub.announce_role(request)
+                except grpc.RpcError as ex:
+                    print_n(f"Running announce_role(). Node-{i} not responding: {ex.details()}")
+        return bookshop_pb2.AnnounceRoleResponse()
+
 
 class BookshopProcess:
     def __init__(self, name:str):
-        self.name = name
         self.db = {}
         self.predecessor = None
         self.successor = None
@@ -85,7 +120,7 @@ class BookshopClient:
 
     def create_processes(self, num_processes:int) -> None:
         with grpc.insecure_channel(f"localhost:{PORTS[PID]}") as channel:
-            stub = bookshop_pb2_grpc.TicTacToeStub(channel)
+            stub = bookshop_pb2_grpc.BookshopStub(channel)
             stub.create_processes(bookshop_pb2.CreateProcessesRequest(num_processes=num_processes))
 
     def get_process_names(self) -> None:

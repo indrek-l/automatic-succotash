@@ -1,30 +1,30 @@
 syntax = "proto3";
 
-message CreateChainRequest {
-}
-message CreateChainResponse {
-}
+message CreateChainRequest {}
+message CreateChainResponse {}
 
 message AddProcessToChainRequest {
     string process = 1;
     string predecessor = 2;
     string successor = 3;
 }
-message AddProcessToChainResponse {    
-}
+message AddProcessToChainResponse {}
 
-message ListChainRequest {
+message AnnounceRoleRequest {
+    string process = 1;
+    string role = 2;
 }
-message ListChainResponse {
-}
+message AnnounceRoleResponse {}
+
+message ListChainRequest {}
+message ListChainResponse {}
 
 message WriteRequest {
     string key = 1;
     string value = 2;
     float timestamp = 3;
 }
-message WriteResponse {
-}
+message WriteResponse {}
 
 message ReadRequest {
     string key = 1;
@@ -38,42 +38,31 @@ message ReadResponse {
 message CreateProcessesRequest {
     int32 num_processes = 1;
 }
-message CreateProcessesResponse {
-}
+message CreateProcessesResponse {}
 
-message GetProcessNamesRequest {    
-}
+message GetProcessNamesRequest {}
 message GetProcessNamesResponse {
     repeated string process_names = 1;
 }
 
-message ListBooksRequest {
-}
-message ListBooksResponse {
-}
+message ListBooksRequest {}
+message ListBooksResponse {}
 
-message SetTimeoutRequest {
-}
-message SetTimeoutResponse {
-}
+message SetTimeoutRequest {}
+message SetTimeoutResponse {}
 
-message DataStatusRequest {
-}
-message DataStatusResponse {
-}
+message DataStatusRequest {}
+message DataStatusResponse {}
 
-message RemoveHeadRequest {
-}
-message RemoveHeadResponse {
-}
+message RemoveHeadRequest {}
+message RemoveHeadResponse {}
 
-message RestoreHeadRequest {
-}
-message RestoreHeadResponse {
-}
+message RestoreHeadRequest {}
+message RestoreHeadResponse {}
 
 service Bookshop {
     rpc create_chain (CreateChainRequest) returns (CreateChainResponse) {};
+    rpc announce_role (AnnounceRoleRequest) returns (AnnounceRoleResponse) {};
     rpc add_process_to_chain (AddProcessToChainRequest) returns (AddProcessToChainResponse) {};
     rpc list_chain (ListChainRequest) returns (ListChainResponse) {};
     rpc write (WriteRequest) returns (WriteResponse) {};
