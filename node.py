@@ -1,4 +1,4 @@
-import random
+from random import shuffle
 import re
 import sys
 import os
@@ -17,8 +17,8 @@ import bookshop_pb2_grpc
 
 #--------------- configuration --------------#
 
-MIN_PID, MAX_PID = 1, 3
-# pid lower than min_pid yields min_pid and pid higher than max_pid yields max_pid
+MIN_PID, MAX_PID = 0, 2
+# pid lower than min_pid yields min_pid. pid higher than max_pid yields max_pid.
 PID = max(min(int(sys.argv[1]), MAX_PID), MIN_PID)
 PORTS = [20040 + i for i in range(1, MAX_PID + 1)]
 
@@ -45,7 +45,7 @@ class BookshopServicer(bookshop_pb2_grpc.BookshopServicer):
         return bookshop_pb2.CreateProcessesResponse()
 
     def get_processes(self, request, context):
-        return bookshop_pb2.GetProcesses(process_list=[ps.name for ps in self.processes])
+        return bookshop_pb2.GetProcessNamesResponse(process_list=[ps.name for ps in self.processes])
 
 
 class BookshopProcess:
@@ -87,6 +87,35 @@ class BookshopClient:
         with grpc.insecure_channel(f"localhost:{PORTS[PID]}") as channel:
             stub = bookshop_pb2_grpc.TicTacToeStub(channel)
             stub.create_processes(bookshop_pb2.CreateProcessesRequest(num_processes=num_processes))
+
+    def get_process_names(self) -> None:
+        process_names = []
+        for i, port in enumerate(PORTS):
+            try:
+                with grpc.insecure_channel(f"localhost:{port}") as channel:
+                    stub = bookshop_pb2_grpc.BookshopStub(channel)
+                    response = stub.get_process_names(bookshop_pb2.GetProcessNamesRequest())
+                    process_names.extend(response.process_names)
+            except grpc.RpcError as e:
+                print_n(f"Running get_process_names(). Node-{i} not responding: {e.details()}")
+        return process_names
+
+    def create_chain(self) -> None:
+        process_names = shuffle(self.get_process_names())
+        for i, proc in enumerate(process_names):
+            node_pid = int(proc[4])
+            pred = process_names[i-1] if i > 0 else None
+            succ = process_names[i+1] if i < len(process_names) - 1 else None
+            try:
+                with grpc.insecure_channel(f"localhost:{PORTS[node_pid]}") as channel:
+                    stub = bookshop_pb2_grpc.BookshopStub(channel)
+                    stub.add_process_to_chain(bookshop_pb2.AddProcessToChainRequest(
+                        process = proc,
+                        predecessor = pred,
+                        successor = succ
+                        ))
+            except grpc.RpcError as e:
+                print_n(f"Running create_chain(). Node-{node_pid} not responding: {e.details()}")
 
 
 #------------------- main -------------------#
